@@ -1,5 +1,5 @@
 {
-  "name": "ecohmrc/mtd",
+  "name": "hmrc/mtd",
   "description":"",
   "require": {
     "guzzlehttp/guzzle": "^6.3"
