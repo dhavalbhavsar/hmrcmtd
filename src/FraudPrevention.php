@@ -33,18 +33,21 @@ class FraudPrevention
     public $vendorLicenseIds = '';
     public $vendorPublicIp = '';
     public $vendorForwarded = '';
+    public $vendorProductName = '';
+    public $clientPublicIPTimestamp = '';
 
-    private $availableClientHeaders = [ 'Connection-Method', 'Public-IP', 'Public-Port', 'Device-ID', 'User-IDs', 'MAC-Addresses', 'Timezone', 'Local-IPs', 'Screens', 'Window-Size', 'User-Agent', 'Browser-Plugins', 'Browser-JS-User-Agent', 'Browser-Do-Not-Track', 'Multi-Factor' ];
-    private $availableVendorHeaders = [ 'Version', 'License-IDs', 'Public-IP', 'Forwarded' ];
+    private $availableClientHeaders = ['Connection-Method', 'Public-IP', 'Public-Port', 'Device-ID', 'User-IDs', 'MAC-Addresses', 'Timezone', 'Local-IPs', 'Screens', 'Window-Size', 'User-Agent', 'Browser-Plugins', 'Browser-JS-User-Agent', 'Browser-Do-Not-Track', 'Multi-Factor', 'Public-IP-Timestamp'];
+    private $availableVendorHeaders = ['Version', 'License-IDs', 'Public-IP', 'Forwarded', 'Product-Name'];
 
     /*
      * @return array Fraud Prevention Headers
      */
-    public function getHeaders() {
+    public function getHeaders()
+    {
         $headers = [];
         foreach ($this->availableClientHeaders as $availableHeader) {
             $name = 'Gov-Client-' . $availableHeader;
-            $variableName = 'client'.str_replace('-', '', ucwords(strtolower($availableHeader), '-'));
+            $variableName = 'client' . str_replace('-', '', ucwords(strtolower($availableHeader), '-'));
             if ($this->{$variableName} != '') {
                 $headers[$name] = $this->{$variableName};
             }
@@ -52,12 +55,22 @@ class FraudPrevention
 
         foreach ($this->availableVendorHeaders as $availableHeader) {
             $name = 'Gov-Vendor-' . $availableHeader;
-            $variableName = 'vendor'.str_replace('-', '', ucwords(strtolower($availableHeader), '-'));
+            $variableName = 'vendor' . str_replace('-', '', ucwords(strtolower($availableHeader), '-'));
             if ($this->{$variableName} != '') {
                 $headers[$name] = $this->{$variableName};
             }
         }
         return $headers;
+    }
+
+    public function setPublicIPTimestamp($value)
+    {
+        $this->clientPublicIPTimestamp = $value;
+    }
+
+    public function setProductName($value)
+    {
+        $this->vendorProductName = $value;
     }
 
     /*
@@ -66,7 +79,8 @@ class FraudPrevention
      *
      * @param string DESKTOP_APP_VIA_SERVER
      */
-    public function setClientConnectionMethod($value) {
+    public function setClientConnectionMethod($value)
+    {
         $this->clientConnectionMethod = $value;
     }
     /*
@@ -74,7 +88,8 @@ class FraudPrevention
      *
      * @param string '198.51.100.0'
      */
-    public function setClientPublicIp($value) {
+    public function setClientPublicIp($value)
+    {
         $this->clientPublicIp = $value;
     }
     /*
@@ -82,7 +97,8 @@ class FraudPrevention
      *
      * @param string '12345'
      */
-    public function setClientPublicPort($value) {
+    public function setClientPublicPort($value)
+    {
         $this->clientPublicPort = $value;
     }
     /*
@@ -91,7 +107,8 @@ class FraudPrevention
      *
      * @param string 'beec798b-b366-47fa-b1f8-92cede14a1ce'
     */
-    public function setClientDeviceId($value) {
+    public function setClientDeviceId($value)
+    {
         $this->clientDeviceId = $value;
     }
     /*
@@ -100,7 +117,8 @@ class FraudPrevention
      *
      * @param array List ['os' => 'alice_desktop', 'my-vendor' => 'alice_online_account']
      */
-    public function setClientUserIds($value) {
+    public function setClientUserIds($value)
+    {
         $this->clientUserIds = $this->getList($value);
     }
     /*
@@ -108,7 +126,8 @@ class FraudPrevention
      *
      * @param string 'UTC+01:00'
      */
-    public function setClientTimezone($value) {
+    public function setClientTimezone($value)
+    {
         $this->clientTimezone = $value;
     }
     /*
@@ -116,7 +135,8 @@ class FraudPrevention
      *
      * @param array List ['10.1.2.3','10.3.4.2']
      */
-    public function setClientLocalIps($value) {
+    public function setClientLocalIps($value)
+    {
         $this->clientLocalIps = $this->getList($value);
     }
     /*
@@ -128,7 +148,8 @@ class FraudPrevention
      *
      * @param array KeyValueList [['width' => 1920, 'height' => 1080, 'scaling-factor' => 1, 'color-depth' => 16],['width' => 3000, 'height' => 2000, 'scaling-factor' => 1.25, 'color-depth' => null]]
      */
-    public function setClientScreens($value) {
+    public function setClientScreens($value)
+    {
         $this->clientScreens = $this->getKeyValueList($value);
     }
     /*
@@ -136,7 +157,8 @@ class FraudPrevention
      *
      * @param array KeyValues ['width' => 1256, 'height' => 803]
      */
-    public function setClientWindowSize($value) {
+    public function setClientWindowSize($value)
+    {
         $this->clientWindowSize = $this->getKeyValues($value);
     }
     /*
@@ -144,7 +166,8 @@ class FraudPrevention
      *
      * @param array List of client MAC addresses ['ea:43:1a:5d:21:45','10:12:cc:fa:aa:32']
      */
-    public function setClientMacAddresses($value) {
+    public function setClientMacAddresses($value)
+    {
         $this->clientMacAddresses = $this->getList($value);
     }
     /*
@@ -152,7 +175,8 @@ class FraudPrevention
      *
      * @param array List ['Shockwave Flash','Chromium PDF Viewer']
      */
-    public function setClientBrowserPlugins($value) {
+    public function setClientBrowserPlugins($value)
+    {
         $this->clientBrowserPlugins = $this->getList($value);
     }
     /*
@@ -160,7 +184,8 @@ class FraudPrevention
      *
      * @param string 'Mozilla/5.0 (iPad; U; CPU OS 3_2_1 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Mobile/7B405'
      */
-    public function setClientBrowserJsUserAgent($value) {
+    public function setClientBrowserJsUserAgent($value)
+    {
         $this->clientBrowserJsUserAgent = $value;
     }
     /*
@@ -169,7 +194,8 @@ class FraudPrevention
      *
      * @param boolean
      */
-    public function setClientBrowserDoNotTrack($value) {
+    public function setClientBrowserDoNotTrack($value)
+    {
         $this->clientBrowserDoNotTrack = $value;
     }
     /*
@@ -183,14 +209,16 @@ class FraudPrevention
      *
      * @param array KeyValueList [['type' => 'AUTH_CODE', 'timestamp' => '2017-04-21T13:23:42Z', 'unique-reference' => 'c672b8d1ef56ed28'],['type' => 'TOTP', 'timestamp' => '2017-05-19T13:10:00Z', 'unique-reference' => 'ac73430ffdfd9']]
      */
-    public function setClientMultiFactor($value) {
+    public function setClientMultiFactor($value)
+    {
         $this->clientMultiFactor = $this->getKeyValueList($value);
     }
     /*
      * @param array $osArray KeyValueList of client operating system, like [['Mac' => 'OSX']] or [['Windows' => 'XP'],['Windows' => 'NT']]
      * @param array $deviceArray KeyValueList of client device manufacturer/models, like [['Apple' => 'iPhone7,2']] or [['Dell' => 'XPS15'],['Dell' => 'XPS13']]
      */
-    public function setClientUserAgent($osArray, $deviceArray) {
+    public function setClientUserAgent($osArray, $deviceArray)
+    {
         $os = $this->getKeyValueList($osArray, '/', ' ');
         $device = $this->getKeyValueList($deviceArray, '/', ' ');
         $this->clientUserAgent = "$os ($device)";
@@ -201,7 +229,8 @@ class FraudPrevention
      *
      * @param array KeyValue ['software-name' => 'version-number','software-name-2' => 'version-number-2']
      */
-    public function setVendorVersion($value) {
+    public function setVendorVersion($value)
+    {
         $this->vendorVersion = $this->getKeyValues($value);
     }
     /*
@@ -209,7 +238,8 @@ class FraudPrevention
      *
      * @param array KeyValue ['software-name' => 'hashed-license-value','software-name-2' => 'hashed-license-value-2']
      */
-    public function setVendorLicenseIds($value) {
+    public function setVendorLicenseIds($value)
+    {
         $this->vendorLicenseIds = $this->getKeyValues($value);
     }
     /*
@@ -219,7 +249,8 @@ class FraudPrevention
      *
      * @param string '203.0.113.6'
      */
-    public function setVendorPublicIp($value) {
+    public function setVendorPublicIp($value)
+    {
         $this->vendorPublicIp = $value;
     }
     /*
@@ -230,10 +261,12 @@ class FraudPrevention
      *
      * @param array KeyValueList [['by' => '33.252.57.234','for' => '57.4.28.41'],['by' => '188.87.76.95','for' => '209.210.136.84']]
      */
-    public function setVendorForwarded($value) {
+    public function setVendorForwarded($value)
+    {
         $this->vendorForwarded = $this->getKeyValueList($value);
     }
-    private function getKeyValues($array, $keySeparator = '&') {
+    private function getKeyValues($array, $keySeparator = '&')
+    {
         $return = '';
         foreach ($array as $key => $value) {
             $return .= rawurlencode($key) . '=' . rawurlencode($value) . $keySeparator;
@@ -241,7 +274,8 @@ class FraudPrevention
         $return = substr($return, 0, -1);
         return $return;
     }
-    private function getKeyValueList($array, $keySeparator = '&', $listSeparator = ',') {
+    private function getKeyValueList($array, $keySeparator = '&', $listSeparator = ',')
+    {
         $return = '';
         foreach ($array as $object) {
             foreach ($object as $key => $value) {
@@ -252,7 +286,8 @@ class FraudPrevention
         $return = substr($return, 0, -1);
         return $return;
     }
-    private function getList($array, $listSeparator = ',') {
+    private function getList($array, $listSeparator = ',')
+    {
         $return = '';
         if (is_array($array)) {
             foreach ($array as $item) {
