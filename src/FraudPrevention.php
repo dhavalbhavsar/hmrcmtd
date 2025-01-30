@@ -29,7 +29,6 @@ class FraudPrevention
     public $clientBrowserDoNotTrack = '';
     public $clientMultiFactor = '';
     public $clientUserAgent = '';
-    public $clientPublicIPTimestamp = '';
     public $vendorVersion = '';
     public $vendorLicenseIds = '';
     public $vendorPublicIp = '';
