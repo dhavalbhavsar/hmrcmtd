@@ -34,7 +34,7 @@ class FraudPrevention
     public $vendorPublicIp = '';
     public $vendorForwarded = '';
     public $vendorProductName = '';
-    public $clientPublicIPTimestamp = '';
+    public $clientPublicIpTimestamp = '';
 
     private $availableClientHeaders = ['Connection-Method', 'Public-IP', 'Public-Port', 'Device-ID', 'User-IDs', 'MAC-Addresses', 'Timezone', 'Local-IPs', 'Screens', 'Window-Size', 'User-Agent', 'Browser-Plugins', 'Browser-JS-User-Agent', 'Browser-Do-Not-Track', 'Multi-Factor', 'Public-IP-Timestamp'];
     private $availableVendorHeaders = ['Version', 'License-IDs', 'Public-IP', 'Forwarded', 'Product-Name'];
@@ -65,7 +65,7 @@ class FraudPrevention
 
     public function setPublicIPTimestamp($value)
     {
-        $this->clientPublicIPTimestamp = $value;
+        $this->clientPublicIpTimestamp = $value;
     }
 
     public function setProductName($value)
