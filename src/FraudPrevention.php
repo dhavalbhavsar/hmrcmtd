@@ -119,7 +119,7 @@ class FraudPrevention
      */
     public function setClientUserIds($value)
     {
-        $this->clientUserIds = $this->getList($value);
+        $this->clientUserIds = $this->getKeyValueList($value);
     }
     /*
      * The local timezone of the originating device, expressed as UTC±<hh>:<mm>
