@@ -115,7 +115,7 @@ class FraudPrevention
      * A key-value data structure containing the user identifiers. The keys should indicate accounts the user holds.
      * The os field should contain the identifier of the user signed in on the originating device. Additional fields should contain the user’s identifiers with the vendor services involved in the request
      *
-     * @param array List ['os' => 'alice_desktop', 'my-vendor' => 'alice_online_account']
+     * @param array List [['os' => 'alice_desktop', 'my-vendor' => 'alice_online_account']]
      */
     public function setClientUserIds($value)
     {
@@ -146,7 +146,7 @@ class FraudPrevention
      * scaling-factor is the reported scaling factor of the screen. For instance, high pixel density screens might have a scaling factor of 2, whereas standard definition screens might report a scaling factor of 1. If the scaling factor cannot be retrieved, leave this empty or omit it entirely.
      * colour-depth is the colour depth of the screen, in bits. If the colour depth cannot be retrieved, leave this empty or omit it entirely
      *
-     * @param array KeyValueList [['width' => 1920, 'height' => 1080, 'scaling-factor' => 1, 'color-depth' => 16],['width' => 3000, 'height' => 2000, 'scaling-factor' => 1.25, 'color-depth' => null]]
+     * @param array KeyValueList [['width' => 1920, 'height' => 1080, 'scaling-factor' => 1, 'colour-depth' => 16],['width' => 3000, 'height' => 2000, 'scaling-factor' => 1.25, 'colour-depth' => null]]
      */
     public function setClientScreens($value)
     {
